@@ -29,8 +29,8 @@
  *                 return m
  *             let i ← i + 1
  *         else
- *             if T[i] > -1 then
- *                 let m ← m + i - T[i], i ← T[i]
+ *             if T[i] > -1 then							//Not so clear with these two lines.
+ *                 let m ← m + i - T[i], i ← T[i]			//How should we initialize T ?
  *             else
  *                 let i ← 0, m ← m + 1
  *             
@@ -43,10 +43,12 @@
  * 
  * @author suhaijun
  *
- *  //I've made this line - Youchen
  */
 public class StrStr {
-
+	
+															//I heared that it's better using JUnit test for the test cases in the interview process.
+															//So, Hj and Xd, if you know how to make a JUnit test, please teach me.
+															//Or else, we may learn it together.
 	public static void main(String[] args) {
 		StrStr sstr = new StrStr();
 		String haytack = "ABC ABCDAB ABCDABCDABDE";
@@ -56,7 +58,12 @@ public class StrStr {
 		System.out.println(sstr.strStr(haytack, "CDAB"));
 		System.out.println(sstr.strStr(haytack, "CDABD"));
 	}
-
+																			//And here, could you make a TIME and SPACE complexity analysis?
+																			//		since it's been asked in the interview.
+																			//like O(something). I believe the KMP has linear time complexity - O(w.length + s.length)
+																			//How about the space?
+																			//In wikipedia, the space seems like O(w.length) since the T[] keeps track the backtrack
+																			//		position. So in your implementation, is it O(1)? Because you only allocate fix amount of vars.
 	public int strStr(String haystack, String needle) {
 		// check
 		if ((haystack == null || needle == null) || needle.length() == 0
@@ -66,8 +73,8 @@ public class StrStr {
 		char trackFlag = needle.charAt(0); // used for partial match
 		int m = 0; // (the beginning of the current match in S)
 		int i = 0; // (the position of the current character in W)
-		int t = -1; // backtrack position
-		int t1 = -1; // backtrack previous state
+		int t = -1; // backtrack position									//I aknowledged that the "t" is the backtrack position,
+		int t1 = -1; // backtrack previous state							//	But why we need to "t"s? Little confusing.
 		while (m + i < haystack.length()) {
 			if (t == t1 && trackFlag == haystack.charAt(m + i)) {
 				t = m + i; // update backtrack position
