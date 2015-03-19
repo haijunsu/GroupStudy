@@ -58,12 +58,12 @@ public class StrStr {
 		System.out.println(sstr.strStr(haytack, "CDAB"));
 		System.out.println(sstr.strStr(haytack, "CDABD"));
 	}
-																			//And here, could you make a TIME and SPACE complexity analysis?
-																			//		since it's been asked in the interview.
-																			//like O(something). I believe the KMP has linear time complexity - O(w.length + s.length)
-																			//How about the space?
-																			//In wikipedia, the space seems like O(w.length) since the T[] keeps track the backtrack
-																			//		position. So in your implementation, is it O(1)? Because you only allocate fix amount of vars.
+															//And here, could you make a TIME and SPACE complexity analysis?
+															//		since it's been asked in the interview.
+															//like O(something). I believe the KMP has linear time complexity - O(w.length + s.length)
+															//How about the space?
+															//In wikipedia, the space seems like O(w.length) since the T[] keeps track the backtrack
+															//		position. So in your implementation, is it O(1)? Because you only allocate fix amount of vars.
 	public int strStr(String haystack, String needle) {
 		// check
 		if ((haystack == null || needle == null) || needle.length() == 0
