@@ -3,7 +3,7 @@ Study with my friends
 <p>
 Group Members:<br>
 <a href="https://github.com/Youchen">Youchen</a> <br>
-Xiaoding
+<a href="https://github.com/xiaodingli">Xiaoding</a><br>
 
 
 <pre>
