@@ -67,6 +67,12 @@ public class StrStr {
 															//In wikipedia, the space seems like O(w.length) since the T[] keeps track the backtrack
 															//		position. So in your implementation, is it O(1)? Because you only allocate fix amount of vars.
 															// Time complexity is O(n) and Space complexity also is O(n).
+	/**
+	 * 
+	 * @param haystack
+	 * @param needle
+	 * @return
+	 */
 	public int strStr(String haystack, String needle) {
 		// check
 		if ((haystack == null || needle == null) || needle.length() == 0
@@ -79,7 +85,7 @@ public class StrStr {
 		int t = -1; // backtrack position									//I aknowledged that the "t" is the backtrack position,
 		int t1 = -1; // backtrack previous state							//	But why we need to "t"s? Little confusing.
 		while (m + i < haystack.length()) {									// I use t instead T[]. It will save space and no extract time for preparing T[]
-			if (t == t1 && trackFlag == haystack.charAt(m + i)) {
+			if (i > 0 && t == t1 && trackFlag == haystack.charAt(m + i)) {
 				t = m + i; // update backtrack position
 			}
 			System.out.println("Backtrack t = " + t);
