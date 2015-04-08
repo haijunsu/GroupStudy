@@ -21,4 +21,4 @@ git config --global user.email <your email address>
 git clone https://github.com/haijunsu/GroupStudy.git
 
 </pre>
-resource: <a href="http://www.kafeitu.me/git/2012/03/27/git-submodule.html" target=_blank>http://www.kafeitu.me/git/2012/03/27/git-submodule.html</a>
+resource: <a href="http://www.kafeitu.me/git/2012/03/27/git-submodule.html"  target="_blank">http://www.kafeitu.me/git/2012/03/27/git-submodule.html</a>
