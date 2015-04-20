@@ -1,4 +1,43 @@
 /**
+ * Round 2 4/16 15 min
+ */
+public class Solution {
+    public void merge(int A[], int m, int B[], int n) {//5 min + 19:06 - 19:16 = 15 min
+        if(B == null || B.length == 0)
+            return;
+            
+        int Ap = A.length - 1;//pointer of A from the end.
+        m--;
+        n--;
+        
+        while(m >= 0 || n >= 0){
+            if(m < 0){
+                A[Ap] = B[n];
+                n--;
+            }
+            else if(n < 0){
+                A[Ap] = A[m];
+                m--;
+            }
+            //m !< 0 && n !< 0
+            else if(A[m] >= B[n]){
+                A[Ap] = A[m];
+                m--;
+            }
+            else if(A[m] < B[n]){
+                A[Ap] = B[n];
+                n--;
+            }
+            Ap--;
+        }
+    }
+}
+
+
+
+
+
+/**
  * O(m + n)
  * O(1)
  * 205 ms

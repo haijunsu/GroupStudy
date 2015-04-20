@@ -1,3 +1,76 @@
+/**
+ * Round 2 4/16 (29 min)
+ * Tough one!!
+ * 
+ * When you think about which part to drop.
+ * just think reversely, I mean, think which part is possibily NOT drop.
+ *      then the rest part is the one you need to drop.
+ */
+public class Solution {
+    public double findMedianSortedArrays(int A[], int B[]) {//20:06 - 20:37 (29 min)
+        int Alen = A.length, Blen = B.length;
+        
+        /**
+         * In case of overflow, I use % to check their sum is odd or even.
+         * 
+         * odd + odd = even
+         * even + even = even
+         * 
+         * odd + even = odd
+         */
+         //The sum of case below is even
+        if( (Alen % 2 == 0 && Blen % 2 == 0) ||
+            (Alen % 2 != 0 && Blen % 2 != 0) ){
+                double r1 = f(A, 0, Alen, B, 0, Blen, (Alen + Blen) / 2);
+                double r2 = f(A, 0, Alen, B, 0, Blen, (Alen + Blen) / 2 + 1);
+                return (r1 + r2) / 2.0;
+        }
+        else{
+            return f(A, 0, Alen, B, 0, Blen, (Alen + Blen + 1) / 2);
+        }
+    }
+    //As = Astart, Ae = Aend;
+    //As is inclusive, Ae is exclusive
+    private double f(int A[], int As, int Ae, int B[], int Bs, int Be, int k){
+        //range
+        int m = Ae - As;
+        int n = Be - Bs;
+        
+        if(m <= 0 && n <= 0)
+            return 0;
+        if(m <= 0 && n > 0)
+            return B[Bs + k - 1];
+        if(m > 0 && n <= 0)
+            return A[As + k - 1];
+        
+        //below is the case of both of m, n are > 0
+        int midA = As + (Ae - As) / 2;
+        int midB = Bs + (Be - Bs) / 2;
+        
+        if(A[midA] <= B[midB]){
+            if(k - 1 <= (m / 2 + n / 2) )//drop second half of B
+                return f(A, As, Ae, B, Bs, midB, k);
+            else
+                return f(A, midA + 1, Ae, B, Bs, Be, k - m / 2 - 1);//Here k - m/2 - 1 is tricky part, just write on paper, you will see how to do it.
+        }else{
+            if(k - 1 <= (m / 2 + n / 2) )//drop 2nd half of A
+                return f(A, As, midA, B, Bs, Be, k);
+            else//drop 1st half of B
+                return f(A, As, Ae, B, midB + 1, Be, k - n / 2 - 1);
+        }
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
 public class Solution {
     /**
      * inspired by:

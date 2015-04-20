@@ -1,4 +1,71 @@
 /**
+ * Round 2 - Still cannot do.
+ * DO THIS AGAIN.
+ * 
+ * Understand the principle.
+ * 
+ * For recursive method:
+ *      Need to have addAll
+ * 
+ * For iterative method
+ *      use Stack
+ *      use push right first then left.
+ */
+
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {//18:17
+        List<Integer> res = new ArrayList<Integer>();
+        if(root == null)
+            return res;
+        
+        /**
+         * Recursive Method
+         */
+        // res.add(root.val);
+        // res.addAll(preorderTraversal(root.left));
+        // res.addAll(preorderTraversal(root.right));
+        // return res;
+        
+        /**
+         * Iterative Method
+         */
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        s.push(root);
+        
+        while(! s.isEmpty()){
+            TreeNode p = s.pop();
+            res.add(p.val);
+            if(p.right != null) s.push(p.right);
+            if(p.left != null) s.push(p.left);
+        }
+        return res;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
  * O(n)
  * O(n)
  * 
