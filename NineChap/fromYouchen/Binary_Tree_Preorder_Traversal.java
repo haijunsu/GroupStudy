@@ -22,7 +22,7 @@
  * }
  */
 public class Solution {
-    public List<Integer> preorderTraversal(TreeNode root) {//18:17
+    public List<Integer> preorderTraversal(TreeNode root) {//4/19 18:17
         List<Integer> res = new ArrayList<Integer>();
         if(root == null)
             return res;
