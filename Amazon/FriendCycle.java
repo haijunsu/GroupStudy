@@ -13,7 +13,7 @@
 * [itemA, itemB, itemC];
 * 解法类似：https://leetcode.com/problems/friend-circles/description/
 *
-*
+* ==========
 * ITEM ASSOCIATION。
 * input
 * [itemA, itemB], 表示物品 A 和物品 B 相互关联。
@@ -21,9 +21,18 @@
 * 如果物品相互关联，就组成一个组。最后要求找出物品最多的那个组
 *
 *
+* ==========
 * 给出一串 Pair, 每个ｐａｉｒ说明两个人互为朋友，[A,B] 说明Ａ和Ｂ是朋友，[Ｃ,B] 说明Ｃ和Ｂ是朋
 * 友，｛Ｄ，Ｅ｝说明Ｅ和Ｄ是朋友。
 * 找出人数最大的朋友圈，如果两个朋友圈人数相等，返回有着字典顺序最小朋友的那个圈。
+*
+*
+* ==========
+* 类似 movie，改成了 books，关系更简单，
+* 【book1， book2】
+* 【book3， book4】
+* 【book5， book6】
+* 找出最大的 network 是什么
 */
 import java.util.*;
 
