@@ -87,7 +87,7 @@ public class Movie {
 		BitSet visited = new BitSet();
 		Queue<Movie> bfsQueue = new LinkedList<Movie>();
 		PriorityQueue<Movie> recomQueue = new PriorityQueue<Movie>(numTopRatedSimilarMovies,
-                (Movie a, Movie b) -> new Float(a.getRating()).compareTo(new Float(b.getRating())));
+                (Movie a, Movie b) -> Float.compare(a.getRating(), b.getRating()));
         visited.set(movie.getId());
         bfsQueue.addAll(movie.getSimilarMovies());
         while (!bfsQueue.isEmpty()) {
