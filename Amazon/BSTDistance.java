@@ -7,33 +7,31 @@ import java.util.*;
 public class BSTDistance{
 
     public int bstDistance(int[] values, int n, int node1, int node2){
-        BTreeNode tree = createBTree(values, n);
-        BTreeNode lca = findLCA(tree, node1, node2);
-        return getDistance(lca, node1) + getDistance(lca, node2);
+        BTreeNode root = createBST(values, n);
+        BTreeNode commParent = lca(root, node1, node2);
+        return distance(commParent, node1) + distance(commParent, node2);
     }
 
-    BTreeNode createBTree(int[] values, int n) {
+    public BTreeNode createBST(int[] values, int n) {
+        if (values == null || values.length == 0) return null;
         BTreeNode root = new BTreeNode(values[0]);
-        for (int i = 1; i < n; ++i) {
-            BTreeNode current = root;
-            while (current != null) {
-                // how to handle if value equals current value?
-                // assume there is no duplicate values in the given list
-                if (values[i] > current.val) {
-                    // right
-                    if (current.right == null) {
-                        current.right = new BTreeNode(values[i]);
+        for (int i = 1; i < values.length; ++i) {
+            BTreeNode parent = root;
+            BTreeNode newNode = new BTreeNode(values[i]);
+            while (true) {
+                if(newNode.val > parent.val) {
+                    if (parent.right == null) {
+                        parent.right = newNode;
                         break;
-                    } else {
-                        current = current.right;
+                    } else{
+                        parent = parent.right;
                     }
                 } else {
-                    // left
-                    if (current.left == null) {
-                        current.left = new BTreeNode(values[i]);
+                    if (parent.left == null) {
+                        parent.left = newNode;
                         break;
                     } else {
-                        current = current.left;
+                        parent = parent.left;
                     }
                 }
             }
@@ -41,34 +39,27 @@ public class BSTDistance{
         return root;
     }
 
-    BTreeNode findLCA(BTreeNode root, int node1, int node2) {
-        if (root == null) {
-            return null;
-        }
-        if (root.val == node1 || root.val == node2) {
-            return root;
-        }
-        BTreeNode left = findLCA(root.left, node1, node2);
-        BTreeNode right = findLCA(root.right, node1, node2);
+    public BTreeNode lca(BTreeNode root, int node1, int node2) {
+        if (root == null) return null;
+        if (root.val == node1 || root.val == node2) return root;
+        BTreeNode left = lca(root.left, node1, node2);
+        BTreeNode right =  lca(root.right, node1, node2);
         if (left != null && right != null) {
             return root;
-        }
-        if (left != null) {
+        } else if (left != null) {
             return left;
         }
         return right;
     }
 
-    int getDistance(BTreeNode root, int node) {
-        if (root == null) return -1; // error input
+    public int distance(BTreeNode parent, int node) {
         int distance = 0;
-        while (root.val != node) {
+        while (parent.val != node) {
             ++distance;
-            if (node > root.val) {
-                // right
-                root = root.right;
+            if (node > parent.val) {
+                parent = parent.right;
             } else {
-                root = root.left;
+                parent = parent.left;
             }
         }
         return distance;
@@ -82,9 +73,22 @@ public class BSTDistance{
     }
 
     public static void main(String []args){
-        BSTDistance bstd = new BSTDistance();
         int[] input = new int[]{5,6,3,1,2,4};
-        int result = bstd.bstDistance(input, 6, 3, 5);
-        System.out.println(result);
+        test(input, 6, 3, 5, 1);
+        test(input, 6, 3, 6, 2);
+        test(input, 6, 4, 6, 3);
+        test(input, 6, 2, 6, 4);
+        test(input, 6, 1, 4, 2);
+        test(input, 6, 1, 3, 1);
+        test(input, 6, 2, 3, 2);
+        test(input, 6, 2, 4, 3);
+    }
+
+    private static void test(int[] input, int size, int node1, int node2, int answer) {
+        System.out.println("Expect: " + answer + ". ");
+        BSTDistance bstd = new BSTDistance();
+        int result = bstd.bstDistance(input, size, node1, node2);
+        System.out.println("Your answer: " + result);
+        System.out.println(answer == result ? "Accept" : "Wrong answer");
     }
 }
