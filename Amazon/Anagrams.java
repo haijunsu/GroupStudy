@@ -8,55 +8,49 @@
  * Since there are only lowercase, we can use an array with size 26 to present the count of each char. see index(String, pos)
  */
 import java.util.*;
+
 public class Anagrams {
 
     public static List<Integer> findAllAnagrams(String s, String p) {
         List<Integer> result = new ArrayList<Integer>();
-        if (s == null || p == null || p.length() == 0)
+        if (s == null || p == null || s.length() < 2 || s.length() < p.length()) {
             return result;
-        if (s.length() < p.length())
-            return result;
-        int start = 0, count = p.length();
+        }
         int[] pchars = new int[26];
         for (int i = 0; i < p.length(); ++i) {
-            ++pchars[index(p, i)];
+            ++pchars[p.charAt(i) - 'a'];
         }
+        int start = 0, count = p.length();
         for (int i = 0; i < s.length(); ++i) {
-            if (--pchars[index(s, i)] >= 0) {
-                // found
+            if (--pchars[s.charAt(i) - 'a'] >= 0) {
                 --count;
             }
-            if (count == 0) {
-                result.add(start);
-            }
-            if (p.length() == (i - start + 1)) {
-                if (pchars[index(s, start)] >= 0) {
+            if (count == 0) result.add(start);
+            if (p.length() == (i - start  + 1)) {
+                if (pchars[s.charAt(start) - 'a'] >= 0) {
                     ++count;
                 }
-                ++pchars[index(s, start)];
-                ++start; // add start at the last step
+                ++pchars[s.charAt(start) - 'a'];
+                ++start;
             }
         }
         return result;
     }
 
-    public static int index(String s, int pos) {
-        return s.charAt(pos) - 'a';
+    public static void main(String[] args) {
+        test("", "", "[]");
+        test("cbaebabacd", "abc", "[0, 6]");
+        test("abab", "ab", "[0, 1, 2]");
     }
 
-    public static void main(String[] args) {
-        Anagrams anag = new Anagrams();
-        String s = "";
-        String p = "";
-        System.out.println("[]");
-        System.out.println(findAllAnagrams(s, p));
-        s = "cbaebabacd";
-        p = "abc";
-        System.out.println("[0, 6]");
-        System.out.println(findAllAnagrams(s, p));
-        s = "abab";
-        p = "ab";
-        System.out.println("[0, 1, 2]");
-        System.out.println(findAllAnagrams(s, p));
+    private static void test(String s, String p, String answer) {
+        String result = findAllAnagrams(s, p).toString();
+        System.out.println("Expect: " + answer + ", your answer: " + result);
+        if (answer.equals(String.join(",", result))) {
+            System.out.println("Accept");
+        } else {
+            System.out.println("Wrong Answer.");
+        }
+
     }
 }
