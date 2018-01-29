@@ -20,57 +20,42 @@ class NTreeNode {
 }
 
 public class LCANTree {
-    Map<String, NTreeNode> parentMap = new HashMap<String, NTreeNode>();
-    Map<String, NTreeNode> ancerstorMap = new HashMap<String, NTreeNode>();
-    Map<String, Integer> rankMap = new HashMap<String, Integer>();
-    Map<String, Boolean> visitedMap = new HashMap<String, Boolean>();
+
+    Map<Integer, NTreeNode> parentMap = new HashMap<Integer, NTreeNode>();
+    Map<Integer, Integer> rankMap = new HashMap<Integer, Integer>();
+    Map<Integer, NTreeNode> ancerstorMap = new HashMap<Integer, NTreeNode>();
+    BitSet visited = new BitSet();
 
     public void makeSet(NTreeNode node) {
-        String key = getNodeValueAsString(node);
-        parentMap.put(key, node);
-        ancerstorMap.put(key, node);
-        rankMap.put(key, 0);
-        visitedMap.put(key, false);
+        parentMap.put(node.val, node);
+        ancerstorMap.put(node.val, node);
+        rankMap.put(node.val, 0);
     }
 
     public NTreeNode find(NTreeNode node) {
-        NTreeNode root = node;
-        String key = getNodeValueAsString(root);
-        while (root != parentMap.get(key)) {// find root
-            root = parentMap.get(key);
-            key = getNodeValueAsString(root);
+        NTreeNode current = node;
+        while(node != parentMap.get(node.val)) {
+            node = parentMap.get(parentMap.get(node.val).val);
         }
-        // flat the tree, make sure each node's parent is root.
-        NTreeNode parent = null;
-        while (node != root) {
-            key = getNodeValueAsString(node);
-            parent = parentMap.get(key);
-            parentMap.put(key, root);
-            node = parent;
+        while(current != node) {
+            parentMap.put(current.val, node);
+            current = parentMap.get(current.val);
         }
-        return root;
+        return node;
     }
 
     public void union(NTreeNode node1, NTreeNode node2) {
-        NTreeNode parent1 = find(node1);
-        NTreeNode parent2 = find(node2);
-        if (parent1 == parent2) {
-            return;
-        }
-        String key1 = getNodeValueAsString(parent1);
-        String key2 = getNodeValueAsString(parent2);
-        if (rankMap.get(key1) > rankMap.get(key2)) {
-            parentMap.put(key2, parent1);
+        NTreeNode root1 = find(node1);
+        NTreeNode root2 = find(node2);
+        if (root1 == root2) return;
+        if (rankMap.get(root1.val) > rankMap.get(root2.val)) {
+            parentMap.put(root2.val, root1);
+        } else if (rankMap.get(root1.val) < rankMap.get(root2.val)) {
+            parentMap.put(root1.val, root2);
         } else {
-            parentMap.put(key1, parent2);
-            if (rankMap.get(key1) == rankMap.get(key2)) {
-                rankMap.put(key2, rankMap.get(key2) + 1);
-            }
+            parentMap.put(root1.val, root2);
+            rankMap.put(root2.val, rankMap.get(root2.val) + 1);
         }
-    }
-
-    private String getNodeValueAsString(NTreeNode node) {
-        return String.valueOf(node.val);
     }
 
     public boolean lca(NTreeNode node, NTreeNode node1, NTreeNode node2) {
@@ -80,20 +65,18 @@ public class LCANTree {
                 return true;
             }
             union(node, child);
-            ancerstorMap.put(getNodeValueAsString(find(node)), node);
+            ancerstorMap.put(find(node).val, node); // Note: ancerstor doesn't equal parent
         }
-        visitedMap.put(getNodeValueAsString(node), true);
-        boolean found = false;
-        if (node == node1 &&
-            visitedMap.getOrDefault(getNodeValueAsString(node2),false)) {
-                System.out.println("LCA: " + node1 + " -> " + node2 + " => " +  ancerstorMap.get(getNodeValueAsString(find(node2))).val);
-                found = true;
-        } else if (node == node2 &&
-           visitedMap.getOrDefault(getNodeValueAsString(node1), false)) {
-                System.out.println("LCA: " + node1 + " -> " + node2 + " => " + ancerstorMap.get(getNodeValueAsString(find(node1))).val);
-                found = true;
+        visited.set(node.val);
+        boolean isfound = false;
+        if (node == node1 && visited.get(node2.val)) {
+            isfound = true;
+            System.out.println("Found: " + ancerstorMap.get(find(node2).val));
+        } else if (node == node2 && visited.get(node1.val)) {
+            isfound = true;
+            System.out.println("Found: " + ancerstorMap.get(find(node1).val));
         }
-        return found;
+        return isfound;
     }
 
     public static void test(NTreeNode root, NTreeNode expected,
