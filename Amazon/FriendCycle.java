@@ -40,128 +40,112 @@ public class FriendCycle {
 
     // Union Find templete https://algs4.cs.princeton.edu/15uf/UF.java.html
     // Reference: https://www.cs.princeton.edu/~rs/AlgsDS07/01UnionFind.pdf
-     class UnionFind {
-        Map<String, String> parentMap = new HashMap<String, String>();
-        Map<String, Integer> rankMap = new HashMap<String, Integer>();
-        int count = 0;
 
-        /**
-         * Items is element relationships. Example: [["p1", "p2"], ["p3"],["p4"]]
-         */
-        UnionFind(String[][] items) {
-            for (int i = 0; i < items.length; i++) {
-                parentMap.put(items[i][0], items[i][0]);
-                parentMap.put(items[i][1], items[i][1]);
-                rankMap.put(items[i][0], 0);
-                rankMap.put(items[i][1], 0);
+    Map<String, String> parentMap = new HashMap<String, String>();
+    Map<String, Integer> rankMap = new HashMap<String, Integer>();
+
+    void makeSet(String[][] people) {
+        for (String[] friends : people) {
+            for (String person : friends) {
+                parentMap.put(person, person);
+                rankMap.put(person, 0);
             }
-            Set<String> keySet = parentMap.keySet();
-            count = keySet.size();
         }
+    }
 
-        public String root(String item) {
-            while (!item.equals(parentMap.get(item))) {
-                parentMap.put(item, parentMap.get(parentMap.get(item)));
-                item = parentMap.get(item);
+    String find(String person) {
+        while(!person.equals(parentMap.get(person))) {
+            person = parentMap.get(parentMap.get(person));
+        }
+        return person;
+    }
+
+    void union(String person1, String person2) {
+        String parent1 = find(person1);
+        String parent2 = find(person2);
+        if (parent1.equals(parent2)) return;
+        if (rankMap.get(parent1) > rankMap.get(parent2)) {
+            parentMap.put(parent2, parent1);
+        } else {
+            parentMap.put(parent1, parent2);
+            if (rankMap.get(parent1) == rankMap.get(parent2)) {
+                rankMap.put(parent2, rankMap.get(parent2) + 1);
             }
-            return item;
         }
+    }
 
-        public boolean connected(String item1, String item2) {
-            return parentMap.get(item1).equals(parentMap.get(item2));
+    void flatTree() {
+        Set<String> keys = parentMap.keySet();
+        for (String key : keys) {
+            parentMap.put(key, find(key));
         }
+    }
 
-        public void union(String item1, String item2) {
-            String root1 = root(item1);
-            String root2 = root(item2);
-            if (root1.equals(root2)) return;
-            if (rankMap.get(root2) > rankMap.get(root1)) {
-                parentMap.put(root1, root2);
-            } else {
-                parentMap.put(root2, root1);
-                if (rankMap.get(root2) == rankMap.get(root1)) {
-                    rankMap.put(root2, rankMap.get(root2) + 1);
+    String[] findLargest() {
+        List<Map.Entry<String, String>> allList = new ArrayList<Map.Entry<String, String>>();
+        flatTree();
+        allList.addAll(parentMap.entrySet());
+        Collections.sort(allList,
+                    (Map.Entry<String, String> a, Map.Entry<String, String> b) -> a.getValue().compareTo(b.getValue())
+                    );
+        System.out.println(allList);
+        List<String> names = new ArrayList<String>();
+        List<String> largeNames = new ArrayList<String>();
+        String preName = null;
+        for (Map.Entry<String, String> entry : allList) {
+            if (preName != null && !preName.equals(entry.getValue())) {
+                if (largeNames.size() < names.size()) {
+                    largeNames = names;
                 }
+                names = new ArrayList<String>();
             }
-            --count;
+            names.add(entry.getKey());
+            preName = entry.getValue();
         }
-
-        public int getCount() {
-            return count;
+        if (largeNames.size() < names.size()) {
+            largeNames = names;
         }
+        Collections.sort(largeNames);
+        return largeNames.toArray(new String[0]);
+    }
 
-        public String[] getLargetElements() {
-            System.out.println(parentMap);
-            Set<String> keySet = parentMap.keySet();
-            Map<String, List<String>> results = new HashMap<String, List<String>>();
-            for (String key:keySet) {
-                // In one cycle, parent can be different but root is same. So we cannot use parentMap.get(key).
-                String value = root(key);
-                List<String> list = results.getOrDefault(value, new ArrayList<String>());
-                list.add(key);
-                results.put(value, list);
-            }
-            int max = 0;
-            List<String> maxList = null;
-            keySet = results.keySet();
-            Set<String> sortedSet = new TreeSet<String>();
-            sortedSet.addAll(keySet);
-            for (String key: sortedSet) {
-                List<String> tmp = results.get(key);
-                if (tmp.size() > max) {
-                    max = tmp.size();
-                    maxList = tmp;
-                }
-            }
-            String[] fcycle = (String[]) maxList.toArray(new String[0]);
-            Arrays.sort(fcycle);
-            return fcycle;
+    public String[] findLargestNetwork(String[][] people) {
+        makeSet(people);
+        for (String[] friends : people) {
+            union(friends[0], friends[1]);
         }
-     }
-
-     public String[] findLargestNetwork(String[][] people) {
-         UnionFind uf = new UnionFind(people);
-         for (int i = 0; i < people.length; ++i) {
-             uf.union(people[i][0], people[i][1]);
-         }
-         System.out.println(uf.getCount());
-         return uf.getLargetElements();
+        return findLargest();
      }
 
      public static void main(String []args){
-        FriendCycle fc = new FriendCycle();
         // Case 1: [friend3, friend4, friend5]
         String[][] people = new String[][]{
                         {"friend1", "friend2"},
                         {"friend3", "friend4"},
                         {"friend4", "friend5"}
                 };
-        String[] result = fc.findLargestNetwork(people);
-        System.out.println(Arrays.toString(result));
+        test(people, "[friend3, friend4, friend5]");
 
         // Case 2: [friend1, friend2]
         people = new String[][]{
                         {"friend1", "friend2"},
                         {"friend3", "friend4"}
                 };
-        result = fc.findLargestNetwork(people);
-        System.out.println(Arrays.toString(result));
+        test(people, "[friend1, friend2]");
 
         // Case 3: [friend1, friend2, friend3]
         people = new String[][]{
                         {"friend1", "friend2"},
                         {"friend2", "friend3"}
                 };
-        result = fc.findLargestNetwork(people);
-        System.out.println(Arrays.toString(result));
+        test(people, "[friend1, friend2, friend3]");
 
         // Case 4: [friend1, friend2, friend3]
         people = new String[][]{
                         {"friend1", "friend2"},
                         {"friend3", "friend2"}
                 };
-        result = fc.findLargestNetwork(people);
-        System.out.println(Arrays.toString(result));
+        test(people, "[friend1, friend2, friend3]");
 
         // Case 5: [friend1, friend2, friend3, friend4]
         people = new String[][]{
@@ -169,8 +153,19 @@ public class FriendCycle {
                         {"friend3", "friend4"},
                         {"friend1", "friend3"}
                 };
-        result = fc.findLargestNetwork(people);
-        System.out.println(Arrays.toString(result));
+        test(people, "[friend1, friend2, friend3, friend4]");
+     }
+
+     private static void test(String[][] people, String answer) {
+        FriendCycle fc = new FriendCycle();
+        String result = Arrays.toString(fc.findLargestNetwork(people));
+        System.out.println("Expect: " + answer + ", your answer: " + result);
+        if (result.equals(answer)) {
+            System.out.println("Accept");
+        } else {
+            System.out.println("Wrong Answer");
+        }
+
      }
 }
 
