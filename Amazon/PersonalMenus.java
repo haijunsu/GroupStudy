@@ -17,54 +17,36 @@
  */
 import java.util.*;
 
-class PairedValue{
-    public String name;
-    public String value;
-}
-
 public class PersonalMenus {
 
     static String[][] findRecommedation(String[][] menu, String[][] personPreferences) {
-        List<PairedValue> pvList = new ArrayList<PairedValue>();
+        List<String[]> recoms = new ArrayList<String[]>();
         for (int i = 0; i < personPreferences.length; ++i) {
-            for (int j = 0; j < menu.length; j++) {
-                if (menu[j][1].equals(personPreferences[i][1]) || "*".equals(personPreferences[i][1])) {
-                    PairedValue pv = new PairedValue();
-                    pv.name = personPreferences[i][0];
-                    pv.value = menu[j][0];
-                    pvList.add(pv);
+            for(int j = 0; j < menu.length; ++j) {
+                if (personPreferences[i][1].equals(menu[j][1])
+                        || "*".equals(personPreferences[i][1])) {
+                    recoms.add(new String[]{personPreferences[i][0], menu[j][0]});
                 }
             }
         }
-
-        String[][] result = new String[pvList.size()][2];
-        int index = 0;
-        for (PairedValue pv : pvList) {
-            result[index][0] = pv.name;
-            result[index][1] = pv.value;
-            ++index;
-        }
-        return result;
+        return recoms.toArray(new String[0][0]);
     }
 
     public static void main(String[] args) {
         String[][] menu = {{"Pizza", "Italian"}, {"Pasta", "Italian"}, {"Burger", "American"}};
 		String[][] personpre = {{"Peter", "Italian"}, {"Adam", "American"}};
 		String[][] expected = {{"Peter", "Pizza"}, {"Peter", "Pasta"}, {"Adam", "Burger"}};
-        printItems(expected);
-		printItems(findRecommedation(menu, personpre));
+        test(menu, personpre, expected);
         menu = new String[][]{{"Pizza", "Italian"}, {"Pasta", "Italian"}, {"Burger", "American"}};
 		personpre = new String[][]{{"Peter", "*"}, {"Adam", "American"}};
 		expected = new String[][]{{"Peter", "Pizza"}, {"Peter", "Pasta"}, {"Peter","Burger"}, {"Adam", "Burger"}};
-        printItems(expected);
-		printItems(findRecommedation(menu, personpre));
+        test(menu, personpre, expected);
 
     }
 
-    static void printItems(String[][] arr) {
-        for (String[] item : arr) {
-            System.out.print("{" + item[0] + ", " + item[1] + "}, ");
-        }
-        System.out.println();
+    static void test(String[][] menu, String[][] personpre, String[][] expected) {
+        String[][] ans = findRecommedation(menu, personpre);
+        System.out.println("Expected: " + Arrays.deepToString(expected) + ", your answer: " + Arrays.deepToString(ans));
+        System.out.println(Arrays.deepToString(expected).equals(Arrays.deepToString(ans)) ? "Accept" : "Wrong answer");
     }
 }

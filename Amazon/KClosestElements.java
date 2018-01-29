@@ -45,15 +45,79 @@ public class KClosestElements {
         return results;
     }
 
+    public List<Integer> findClosestElements2(int[] arr, int k, int x) {
+        List<Integer> ans = new ArrayList<Integer>();
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(k,
+                    new Comparator<Integer>(){
+                        public int compare(Integer a, Integer b) {
+                            int absA = a >= 0? a : (~a + 1);
+                            int absB = b >= 0? b : (~b + 1);
+                            return -1 * Integer.compare(absA, absB);
+                        }
+                    }
+                );
+
+        for (int i = 0; i < arr.length; ++i) {
+            if (queue.size() < k) {
+                queue.offer(x - arr[i]);
+            } else {
+                int peek = queue.peek();
+                peek = peek >= 0 ? peek : ~peek + 1;
+                int value = x - arr[i];
+                value = value >= 0 ? value : ~value + 1;
+                if (peek > value) {
+                    queue.poll();
+                    queue.offer(x - arr[i]);
+                }
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            ans.add(0, x - queue.poll());
+        }
+        Collections.sort(ans);
+        return ans;
+    }
+
+    public List<Integer> findClosestElements3(int[] arr, int k, int x) {
+        List<Integer> ans = new ArrayList<Integer>();
+        PriorityQueue<int[]> queue = new PriorityQueue<int[]>(k,
+                (int[] a, int[] b) -> -1 * Integer.compare(a[1], b[1])
+                );
+        int[][] dist = new int[arr.length][2];
+        for (int i = 0; i < arr.length; ++i) {
+            dist[i][0] = arr[i];
+            dist[i][1] = Math.abs(x - arr[i]);
+            if (queue.size() < k) {
+                queue.offer(dist[i]);
+            } else {
+                int [] peek = queue.peek();
+                if (peek[1] > dist[i][1]) {
+                    queue.poll();
+                    queue.offer(dist[i]);
+                }
+            }
+        }
+        while (!queue.isEmpty()) {
+            ans.add(queue.poll()[0]);
+        }
+        Collections.sort(ans);
+        return ans;
+    }
+
 
      public static void main(String []args){
-        KClosestElements kcle = new KClosestElements();
-        int[] arr = new int[]{1,2,3,4,5};
-        List<Integer> results = kcle.findClosestElements(arr, 4, -1);
-        System.out.println(results);
-        results = kcle.findClosestElements(arr, 4, 3);
-        System.out.println(results);
-        results = kcle.findClosestElements(arr, 4, 7);
-        System.out.println(results);
+        int[] arr = new int[]{0,1,2,4,5,7,10};
+        test(arr, 4, -1);
+        test(arr, 4, 3);
+        test(arr, 4, 7);
+     }
+
+     public static void test(int[] arr, int k, int x) {
+         KClosestElements kcle = new KClosestElements();
+         List<Integer> verification = kcle.findClosestElements(arr, k, x);
+         List<Integer> answer = kcle.findClosestElements3(arr, k, x);
+         System.out.println("Expected: " + verification + ", your answer: " + answer);
+         System.out.println(verification.toString().equals(answer.toString())? "Accept" : "Wrong answer");
      }
 }

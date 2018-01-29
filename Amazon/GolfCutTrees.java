@@ -62,9 +62,9 @@ class GolfCutTrees {
 
     public static void main(String args[]) {
         int[][] testData = new int[][]{{1,2,3},{0,0,4},{7,6,5}};
-        test(testData, 6);
+        test(testData);
         testData = new int[][]{{1,2,3},{0,0,0},{7,6,5}};
-        test(testData, -1);
+        test(testData);
 
     }
 
@@ -80,9 +80,67 @@ class GolfCutTrees {
         return result;
     }
 
-    private static void test(int[][] data, int expected) {
-        int result = cutOffTree(buildList(data));
+    private static void test(int[][] data) {
+        int expected = cutOffTree(buildList(data)); // has been tested on Leetcode
+        int result = cutOffTree2(buildList(data));
         System.out.println("Yours: " + result + ", excepted: " + expected);
-        System.out.println(result == expected?"Accept":"Wrong");
+        System.out.println(result == expected?"Accept":"Wrong answer");
     }
+
+
+    static int[] dx2 = {1, -1, 0, 0};
+    static int[] dy2 = {0, 0, 1, -1};
+    static int X2 = 0;
+    static int Y2 = 0;
+
+    public static int cutOffTree2(List<List<Integer>> forest) {
+        // this method for practice
+        // sort first
+        X2 = forest.size();
+        Y2 = forest.get(0).size();
+        PriorityQueue<int[]> queue = new PriorityQueue<int[]>(
+                (int[] a, int[] b) -> Integer.compare(a[2], b[2])
+                );
+        for (int x = 0; x < X2; ++x) {
+            for (int y = 0; y < Y2; ++y) {
+               int high = forest.get(x).get(y);
+               if (high > 1) {
+                    queue.offer(new int[] {x, y, high});
+               }
+            }
+        }
+        int steps = 0, sx = 0, sy = 0;
+        while (!queue.isEmpty()) {
+            int[] tree = queue.poll();
+            int dist = distance(forest, sx, sy, tree[0], tree[1]);
+            if (dist == -1) return -1;
+            steps += dist;
+            sx = tree[0];
+            sy = tree[1];
+        }
+        return steps;
+    }
+
+    private static int distance(List<List<Integer>> forest, int sx, int sy, int tx, int ty) {
+        Queue<int[]> processQueue = new LinkedList<int[]>();
+        boolean[][] visited = new boolean[X2][Y2];
+        processQueue.offer(new int[]{sx, sy, 0});
+        visited[sx][sy] = true;
+        while (!processQueue.isEmpty()) {
+            int[] curr = processQueue.poll();
+            if (curr[0] == tx && curr[1] == ty) {
+                return curr[2];
+            }
+            for (int i = 0; i < 4; ++i) {
+                int x = curr[0] + dx2[i];
+                int y = curr[1] + dy2[i];
+                if (x >= 0 && x < X2 && y >= 0 && y < Y2 && !visited[x][y] && forest.get(x).get(y) > 0) {
+                    visited[x][y] = true;
+                    processQueue.offer(new int[]{x, y, curr[2] + 1});
+                }
+            }
+        }
+        return -1;
+    }
+
 }

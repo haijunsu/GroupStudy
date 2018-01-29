@@ -83,32 +83,37 @@ public class Movie {
 	public static List<Movie> getMovieRecommendations(Movie movie,
 			int numTopRatedSimilarMovies) {
 		// BFS and Priority Queue
-		List<Movie> result = new ArrayList<Movie>(numTopRatedSimilarMovies);
-		BitSet visited = new BitSet();
-		Queue<Movie> bfsQueue = new LinkedList<Movie>();
-		PriorityQueue<Movie> recomQueue = new PriorityQueue<Movie>(numTopRatedSimilarMovies,
-                (Movie a, Movie b) -> Float.compare(a.getRating(), b.getRating()));
+        List<Movie> recoms = new ArrayList<Movie>();
+        PriorityQueue<Movie> recomQueue = new PriorityQueue<Movie>(numTopRatedSimilarMovies,
+            (Movie a, Movie b) -> Float.compare(a.getRating(), b.getRating())
+            );
+        Queue<Movie> queue = new LinkedList<Movie>();
+        BitSet visited = new BitSet();
+        queue.offer(movie);
         visited.set(movie.getId());
-        bfsQueue.addAll(movie.getSimilarMovies());
-        while (!bfsQueue.isEmpty()) {
-            Movie sMovie = bfsQueue.poll();
-            if (!visited.get(sMovie.getId())) {
-                visited.set(sMovie.getId());
+        while(!queue.isEmpty()) {
+            Movie curr = queue.poll();
+            if (!visited.get(curr.getId())) {
+                visited.set(curr.getId());
                 if (recomQueue.size() < numTopRatedSimilarMovies) {
-                    recomQueue.offer(sMovie);
+                    recomQueue.offer(curr);
                 } else {
-                    if (recomQueue.peek().getRating() < sMovie.getRating()) {
+                    if (recomQueue.peek().getRating() < curr.getRating()) {
                         recomQueue.poll();
-                        recomQueue.offer(sMovie);
+                        recomQueue.offer(curr);
                     }
                 }
-                bfsQueue.addAll(sMovie.getSimilarMovies());
+            }
+            for (Movie child: curr.getSimilarMovies()) {
+                if (!visited.get(child.getId())) queue.offer(child);
             }
         }
-        while (!recomQueue.isEmpty()) {
-            result.add(recomQueue.poll());
+
+        while(!recomQueue.isEmpty()) {
+            recoms.add(recomQueue.poll());
         }
-		return result;
+
+        return recoms;
     }
 
 	@Override
@@ -128,15 +133,55 @@ public class Movie {
         m2.addSimilarMovie(m4);
         m2.addSimilarMovie(m5);
         m1.addSimilarMovie(m6);
-        System.out.println(getMovieRecommendations(m1, 10));
-        System.out.println(getMovieRecommendations(m1, 5));
-        System.out.println(getMovieRecommendations(m1, 3));
-        System.out.println(getMovieRecommendations(m1, 1));
-        System.out.println(getMovieRecommendations(m5, 10));
-        System.out.println(getMovieRecommendations(m6, 5));
-        System.out.println(getMovieRecommendations(m5, 3));
-        System.out.println(getMovieRecommendations(m6, 1));
+        List<Movie> expected = new ArrayList<Movie>();
+        expected.add(m4);
+        expected.add(m3);
+        expected.add(m2);
+        expected.add(m5);
+        expected.add(m6);
+        test(m1, 10, expected);
+        expected.clear();
+        expected.add(m4);
+        expected.add(m3);
+        expected.add(m2);
+        expected.add(m5);
+        expected.add(m6);
+        test(m1, 5, expected);
+        expected.clear();
+        expected.add(m2);
+        expected.add(m5);
+        expected.add(m6);
+        test(m1, 3, expected);
+        expected.clear();
+        expected.add(m6);
+        test(m1, 1, expected);
+        expected.clear();
+        expected.add(m4);
+        expected.add(m1);
+        expected.add(m3);
+        expected.add(m2);
+        expected.add(m6);
+        test(m5, 10, expected);
+        expected.clear();
+        expected.add(m4);
+        expected.add(m1);
+        expected.add(m3);
+        expected.add(m2);
+        expected.add(m5);
+        test(m6, 10, expected);
+        expected.clear();
+        expected.add(m3);
+        expected.add(m2);
+        expected.add(m5);
+        test(m6, 3, expected);
+        expected.clear();
+        expected.add(m6);
+        test(m5, 1, expected);
+    }
 
-
+    static void test(Movie movie, int num, List<Movie> expected) {
+        String result = getMovieRecommendations(movie, num).toString();
+        System.out.println("Expected: " + expected.toString() + ", your answer: " + result);
+        System.out.println(expected.toString().equals(result) ? "Accept" : "Wrong answer");
     }
 }

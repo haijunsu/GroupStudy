@@ -9,10 +9,42 @@
  * steps[i][j] = steps[i - 1][j] + steps[i][j - 1]
  * 如果单元值为1，则 steps[i][j] = 0
  *
+ * I think it is not the Unique Path II. It likes a part Golf Cut Off Tree.
+ * We can go 4 directions instead of 2 directions (down and right);
  */
 
+import java.util.*;
 public class Maze {
+    // for Maze
+    // from 0,0 to x,y
+    public static int minSteps(int[][] maze, int x, int y) {
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
+        int X = maze.length;
+        int Y = maze[0].length;
+        Queue<int[]> queue = new LinkedList<int[]>();
+        boolean[][] visited = new boolean[X][Y];
+        queue.offer(new int[]{0, 0, 0});
+        visited[0][0] = true;
+        while (!queue.isEmpty()) {
+            int[] cell = queue.poll();
+            if (cell[0] == x && cell[1] == y) {
+                return cell[2];
+            }
+            for (int i = 0; i < 4; ++i) {
+                int m = cell[0] + dx[i];
+                int n = cell[1] + dy[i];
+                if (m >= 0 && m < X && n >= 0 && n < Y && !visited[m][n] && maze[m][n] == 0) {
+                    visited[m][n] = true;
+                    queue.offer(new int[]{m, n, cell[2] + 1});
+                }
+            }
+        }
+        return -1;
+    }
 
+
+    // for Unique PathII
     public static int solution(int[][] maze) {
         int m = maze.length, n = maze[0].length;
         int[][] steps = new int[m][n];
@@ -36,48 +68,21 @@ public class Maze {
         return steps[m -  1][n - 1];
     }
 
-    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m = obstacleGrid.length, n = obstacleGrid[0].length;
-        int[][] paths = new int[m][n];
-        for (int i = 0; i < m; ++i) {
-            if (obstacleGrid[i][0] == 1) {
-                break;
-            }
-            paths[i][0] = 1;
-        }
-        for (int i = 0; i < n; ++i) {
-            if (obstacleGrid[0][i] == 1) {
-                break;
-            }
-            paths[0][i] = 1;
-        }
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
-                if (obstacleGrid[i][j] == 1) {
-                    paths[i][j] = 0;
-                } else {
-                    paths[i][j] = paths[i - 1][j] + paths[i][j - 1];
-                }
-            }
-        }
-        return paths[m - 1][n - 1];
-
-   }
-
     public static void main(String[] args) {
         int[][] maze = {{0}};
-        System.out.println(1);
-        System.out.println(solution(maze));
-        maze = new int[][]{{1}}; //bad case
-        System.out.println(0);
-        System.out.println(solution(maze));
+        test(maze, 0, 0, 0);
         maze = new int[][]{{0,0,1},{0,1,0},{0,0,0}};
-        System.out.println(1);
-        System.out.println(solution(maze));
+        test(maze, 1, 2, 5);
+        test(maze, 2, 1, 3);
         maze = new int[][]{{0,0,0},{0,1,0},{0,0,0}};
-        System.out.println(2);
-        System.out.println(solution(maze));
+        test(maze, 1, 0, 1);
+        test(maze, 1, 2, 3);
     }
 
+    public static void test(int[][] maze, int x, int y, int expected) {
+        int ans = minSteps(maze, x, y);
+        System.out.println("Expected: " + expected + ", your answer: " + ans);
+        System.out.println(expected == ans? "Accept" : "Wrong answer");
+    }
 }
 

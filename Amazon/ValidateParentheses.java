@@ -6,8 +6,30 @@
 
 import java.util.*;
 public class ValidateParentheses {
-
     public static boolean validate(String str) {
+        if (str == null || str.length() == 0) return true;
+        int len = str.length();
+        if (len % 2 != 0) return false;
+        Stack<Character> stk = new Stack<Character>();
+        for (int i = 0; i < len; ++i) {
+            char posC = str.charAt(i);
+            if (posC == '[') {
+                stk.push(']');
+            } else if (posC == '{') {
+                stk.push('}');
+            } else if (posC == '(') {
+                stk.push(')');
+            } else {
+                if (stk.isEmpty() || stk.pop() != posC) {
+                    return false;
+                }
+            }
+        }
+        return stk.isEmpty();
+    }
+
+    // for validation
+    public static boolean validate2(String str) {
         if (str == null || str.length() == 0)
             return true;
         int len = str.length();
@@ -34,9 +56,21 @@ public class ValidateParentheses {
 
 
      public static void main(String []args){
-        System.out.println(validate(""));
-        System.out.println(validate("["));
-        System.out.println(validate("[]{}()"));
-        System.out.println(validate("[]{}(){"));
+        test("");
+        test("[");
+        test("[]");
+        test("][");
+        test("[]{}()");
+        test("[[[]]]");
+        test("[{[[]]}]()");
+        test("[{[([])]}]()");
+        test("[{[([[])]}]()");
+     }
+
+     static void test(String str) {
+        boolean ans = validate(str);
+        boolean ans2 = validate2(str);
+        System.out.println("Expected: " + ans2 + ", your answer: " + ans);
+        System.out.println(ans == ans2 ? "Accept" : "Wrong answer");
      }
 }
