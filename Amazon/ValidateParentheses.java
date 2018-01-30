@@ -7,22 +7,23 @@
 import java.util.*;
 public class ValidateParentheses {
     public static boolean validate(String str) {
-        if (str == null || str.length() == 0) return true;
-        int len = str.length();
-        if (len % 2 != 0) return false;
         Stack<Character> stk = new Stack<Character>();
-        for (int i = 0; i < len; ++i) {
-            char posC = str.charAt(i);
-            if (posC == '[') {
-                stk.push(']');
-            } else if (posC == '{') {
-                stk.push('}');
-            } else if (posC == '(') {
-                stk.push(')');
-            } else {
-                if (stk.isEmpty() || stk.pop() != posC) {
-                    return false;
-                }
+        for (int i = 0; i < str.length(); ++i) {
+            char tmp = str.charAt(i);
+            switch (tmp) {
+                case '{':
+                    stk.push('}');
+                    break;
+                case '(':
+                    stk.push(')');
+                    break;
+                case '[':
+                    stk.push(']');
+                    break;
+                default:
+                    if (stk.isEmpty() || tmp != stk.pop()) {
+                        return false;
+                    }
             }
         }
         return stk.isEmpty();
