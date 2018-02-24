@@ -44,7 +44,7 @@ public class Anagrams {
     }
 
     private static void test(String s, String p, String answer) {
-        String result = findAllAnagrams(s, p).toString();
+        String result = findAllAnagrams2(s, p).toString();
         System.out.println("Expect: " + answer + ", your answer: " + result);
         if (answer.equals(String.join(",", result))) {
             System.out.println("Accept");
@@ -52,5 +52,29 @@ public class Anagrams {
             System.out.println("Wrong Answer.");
         }
 
+    }
+    public static List<Integer> findAllAnagrams2(String s, String p) {
+        List<Integer> ans  = new ArrayList<Integer>();
+        int[] pChars = new int[256];
+        int start = 0, count = p.length();
+        for( int i = 0; i < p.length(); ++i ) {
+            ++pChars[p.charAt(i)];
+        }
+        for (int i = 0; i < s.length(); ++i) {
+            if (--pChars[s.charAt(i)] >= 0) {
+                --count;
+            }
+            if (count == 0) {
+                ans.add(start);
+            }
+            if (p.length() == (i - start + 1)) {
+                if (pChars[s.charAt(start)] >= 0) {
+                    ++count;
+                }
+                ++pChars[s.charAt(start)];
+                ++start;
+            }
+        }
+        return ans;
     }
 }

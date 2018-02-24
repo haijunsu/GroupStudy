@@ -91,4 +91,64 @@ public class BSTDistance{
         System.out.println("Your answer: " + result);
         System.out.println(answer == result ? "Accept" : "Wrong answer");
     }
+
+    public int bsdDistance2(int[] input, int size, int node1, int node2) {
+        BTreeNode root = buildBstTree(input, size);
+        BTreeNode parent = findLca(root, node1, node2);
+        return dist(parent, node1) + dist(parent, node2);
+    }
+
+    BTreeNode buildBstTree(int[] input, int size) {
+        if (input == null || input.length == 0) return null;
+        BTreeNode root = new BTreeNode(input[0]);
+        for (int i = 1; i < size; ++i) {
+            BTreeNode curr = root;
+            while (true) {
+                if (curr.val > input[i]) {
+                    if (curr.left == null) {
+                        curr.left = new BTreeNode(input[i]);
+                        break;
+                    } else {
+                        curr = curr.left;
+                    }
+                } else {
+                    if (curr.right == null) {
+                        curr.right = new BTreeNode(input[i]);
+                        break;
+                    } else {
+                        curr = curr.right;
+                    }
+                }
+            }
+        }
+        return root;
+    }
+
+    BTreeNode findLca(BTreeNode root, int val1, int val2) {
+        if (root == null) return null;
+        if (root.val == val1 || root.val == val2) return root;
+        BTreeNode left = findLca(root.left, val1, val2);
+        BTreeNode right = findLca(root.right, val1, val2);
+        if (left != null && right != null) {
+            return root;
+        } else if (left != null) {
+            return left;
+        }
+        return right;
+    }
+
+    int dist(BTreeNode parent, int val) {
+        int distance = 0;
+        while (parent.val != val) {
+            if (parent.val > val) {
+                // left
+                ++distance;
+                parent = parent.left;
+            } else if (parent.val < val) {
+                ++ distance;
+                parent = parent.right;
+            }
+        }
+        return distance;
+    }
 }

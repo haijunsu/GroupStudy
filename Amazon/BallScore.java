@@ -19,23 +19,23 @@ import java.util.*;
 public class BallScore {
 
     public static int solution(String[] scores) {
-        int sum = 0;
         Stack<Integer> stk = new Stack<Integer>();
-        for (String score : scores) {
+        for (String score: scores) {
             if (score.equals("Z")) {
                 stk.pop();
             } else if (score.equals("X")) {
                 stk.push(stk.peek() * 2);
             } else if (score.equals("+")) {
-                int top = stk.pop();
-                int value = top + stk.peek();
+                int top  = stk.pop();
+                int val = stk.peek() + top;
                 stk.push(top);
-                stk.push(value);
+                stk.push(val);
             } else {
                 stk.push(Integer.parseInt(score));
             }
         }
-        for (int score : stk) {
+        int sum = 0;
+        for (Integer score: stk) {
             sum += score;
         }
         return sum;

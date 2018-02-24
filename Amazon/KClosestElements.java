@@ -81,25 +81,21 @@ public class KClosestElements {
 
     public List<Integer> findClosestElements3(int[] arr, int k, int x) {
         List<Integer> ans = new ArrayList<Integer>();
-        PriorityQueue<int[]> queue = new PriorityQueue<int[]>(k,
-                (int[] a, int[] b) -> -1 * Integer.compare(a[1], b[1])
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(k,
+                    (Integer a, Integer b) -> Integer.compare(Math.abs(b), Math.abs(a))
                 );
-        int[][] dist = new int[arr.length][2];
-        for (int i = 0; i < arr.length; ++i) {
-            dist[i][0] = arr[i];
-            dist[i][1] = Math.abs(x - arr[i]);
+        for (int i = 0; i < arr.length; ++i ) {
             if (queue.size() < k) {
-                queue.offer(dist[i]);
+                queue.offer(x - arr[i]);
             } else {
-                int [] peek = queue.peek();
-                if (peek[1] > dist[i][1]) {
+                if (Math.abs(x - arr[i]) < Math.abs(queue.peek())) {
                     queue.poll();
-                    queue.offer(dist[i]);
+                    queue.offer(x - arr[i]);
                 }
             }
         }
         while (!queue.isEmpty()) {
-            ans.add(queue.poll()[0]);
+            ans.add(x - queue.poll());
         }
         Collections.sort(ans);
         return ans;

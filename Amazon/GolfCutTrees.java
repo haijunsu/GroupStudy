@@ -98,20 +98,20 @@ class GolfCutTrees {
         // sort first
         X2 = forest.size();
         Y2 = forest.get(0).size();
-        PriorityQueue<int[]> queue = new PriorityQueue<int[]>(
-                (int[] a, int[] b) -> Integer.compare(a[2], b[2])
+        PriorityQueue<int[]> treeQueue = new PriorityQueue<int[]>(
+                    (int[] a, int[] b) -> Integer.compare(a[2], b[2])
                 );
         for (int x = 0; x < X2; ++x) {
             for (int y = 0; y < Y2; ++y) {
-               int high = forest.get(x).get(y);
-               if (high > 1) {
-                    queue.offer(new int[] {x, y, high});
-               }
+                int val = forest.get(x).get(y);
+                if (val > 1) {
+                    treeQueue.offer(new int[]{x, y, val});
+                }
             }
         }
         int steps = 0, sx = 0, sy = 0;
-        while (!queue.isEmpty()) {
-            int[] tree = queue.poll();
+        while( !treeQueue.isEmpty() ) {
+            int[] tree = treeQueue.poll();
             int dist = distance(forest, sx, sy, tree[0], tree[1]);
             if (dist == -1) return -1;
             steps += dist;
@@ -128,13 +128,12 @@ class GolfCutTrees {
         visited[sx][sy] = true;
         while (!processQueue.isEmpty()) {
             int[] curr = processQueue.poll();
-            if (curr[0] == tx && curr[1] == ty) {
+            if (curr[0] == tx && curr[1] == ty)
                 return curr[2];
-            }
             for (int i = 0; i < 4; ++i) {
-                int x = curr[0] + dx2[i];
-                int y = curr[1] + dy2[i];
-                if (x >= 0 && x < X2 && y >= 0 && y < Y2 && !visited[x][y] && forest.get(x).get(y) > 0) {
+                int x = dx[i] + curr[0];
+                int y = dy[i] + curr[1];
+                if (x >= 0 && x < X2 && y >=0 && y < Y2 && !visited[x][y] && forest.get(x).get(y) >= 1) {
                     visited[x][y] = true;
                     processQueue.offer(new int[]{x, y, curr[2] + 1});
                 }
