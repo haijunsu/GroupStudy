@@ -22,3 +22,5 @@ git clone https://github.com/haijunsu/GroupStudy.git
 
 </pre>
 resource: <a href="http://www.kafeitu.me/git/2012/03/27/git-submodule.html"  target="_blank">http://www.kafeitu.me/git/2012/03/27/git-submodule.html</a>
+
+[Git Tools - Submodules (Official document)](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
