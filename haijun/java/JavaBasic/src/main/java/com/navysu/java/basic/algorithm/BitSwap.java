@@ -1,3 +1,5 @@
+package com.navysu.java.basic.algorithm;
+
 /*
  * Crack the interview 5.5
  * Determine the number of bits required to convert integer A to B.

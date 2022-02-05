@@ -1,3 +1,5 @@
+package com.navysu.java.basic.algorithm;
+
 import java.util.*;
 import java.util.stream.*;
 

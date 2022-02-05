@@ -1,3 +1,5 @@
+package com.navysu.java.basic.algorithm;
+
 /*
  *  Cracking the Coding Interview 3.4
  *

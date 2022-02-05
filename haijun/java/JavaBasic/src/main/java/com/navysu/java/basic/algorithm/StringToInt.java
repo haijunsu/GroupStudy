@@ -1,3 +1,5 @@
+package com.navysu.java.basic.algorithm;
+
 public class StringToInt {
     public static int toInt(String str) throws Exception {
         if (str == null) throw new Exception("Input Error");
