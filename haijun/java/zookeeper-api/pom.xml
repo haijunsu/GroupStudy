@@ -15,17 +15,16 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <lombok.version>1.18.30</lombok.version>
+        <log4j-api.version>2.24.1</log4j-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j-api.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
@@ -74,7 +73,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <release>17</release>
                     <archive>
                         <manifest>
                             <mainClass>com.navysu.zookeeper.Application</mainClass>
