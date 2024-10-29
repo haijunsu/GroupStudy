@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class JavaBasicApplication implements CommandLineRunner {
-	
+
 	@Autowired
 	private MyBootStarter starter;
 
@@ -17,8 +17,7 @@ public class JavaBasicApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
-		for (String arg: args) {
+		for (String arg : args) {
 			System.out.println(arg);
 		}
 		starter.sayHello();
