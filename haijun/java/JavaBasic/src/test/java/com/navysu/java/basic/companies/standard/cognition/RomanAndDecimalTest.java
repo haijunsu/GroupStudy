@@ -8,15 +8,12 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.navysu.java.basic.companies.standard.cognition.RomanAndDecimal;
-import com.navysu.java.basic.companies.standard.cognition.RomanDecimal;
-
 class RomanAndDecimalTest {
-	
+
 	static RomanAndDecimal romanAndDecimal;
 
 	static List<RomanDecimal> testCases;
-	
+
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		romanAndDecimal = new RomanAndDecimal();
@@ -53,14 +50,14 @@ class RomanAndDecimalTest {
 
 	@Test
 	void testRoman2Decimal() {
-		for (RomanDecimal value: testCases) {
+		for (RomanDecimal value : testCases) {
 			assertEquals(value.getDecimal(), romanAndDecimal.roman2Decimal(value.getRoman()));
 		}
 	}
 
 	@Test
 	void testDecimal2Roman() {
-		for (RomanDecimal value: testCases) {
+		for (RomanDecimal value : testCases) {
 			assertEquals(value.getRoman(), romanAndDecimal.decimal2Roman(value.getDecimal()));
 		}
 	}
