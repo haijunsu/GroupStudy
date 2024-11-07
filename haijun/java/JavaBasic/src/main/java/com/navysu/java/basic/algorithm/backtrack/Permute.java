@@ -1,4 +1,4 @@
-package com.navysu.java.basic.algorithm;
+package com.navysu.java.basic.algorithm.backtrack;
 
 import java.util.Arrays;
 

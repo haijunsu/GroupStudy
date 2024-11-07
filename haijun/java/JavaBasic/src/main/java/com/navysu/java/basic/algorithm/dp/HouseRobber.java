@@ -1,4 +1,4 @@
-package com.navysu.java.basic.algorithm;
+package com.navysu.java.basic.algorithm.dp;
 
 /**
  * Leetcode 198 House Robber

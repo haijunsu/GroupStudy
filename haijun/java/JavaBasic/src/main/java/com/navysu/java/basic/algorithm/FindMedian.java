@@ -1,5 +1,6 @@
 package com.navysu.java.basic.algorithm;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -14,6 +15,7 @@ public class FindMedian {
 
     public static double findMedian(int[] nums) {
         int n = nums.length;
+        Arrays.sort(nums);
         if (n % 2 == 0) {
             return (nums[n / 2 - 1] + nums[n / 2]) / 2.0;
         } else {
