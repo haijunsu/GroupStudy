@@ -1,4 +1,4 @@
-package com.navysu.java.basic.algorithm;
+package com.navysu.java.basic.algorithm.graph;
 
 import java.util.Arrays;
 import java.util.Comparator;
