@@ -1,6 +1,7 @@
 package com.navysu.java.basic.algorithm;
 
 import java.util.PriorityQueue;
+import java.util.TreeSet;
 
 /**
  * Hackerranking MinimumLoss
@@ -67,13 +68,16 @@ public class MinimumLoss {
     public static void main(String[] args) {
         long[] prices = { 20, 7, 8, 2, 5 };
         System.out.println(minimumLoss(prices));
+        System.out.println(minimumLoss2(prices));
         prices = new long[] { 5, 10, 3 };
         System.out.println(minimumLoss(prices));
+        System.out.println(minimumLoss2(prices));
         prices = new long[] { 1, 3, 2, 4, 5 };
         System.out.println(minimumLoss(prices));
+        System.out.println(minimumLoss2(prices));
     }
 
-    public static int minimumLoss(long[] prices) {
+    public static long minimumLoss(long[] prices) {
         long loss = Long.MAX_VALUE;
         PriorityQueue<Long[]> queue = new PriorityQueue<Long[]>((a, b) -> b[1].compareTo(a[1]));
         for (int i = 0; i < prices.length; i++) {
@@ -86,7 +90,20 @@ public class MinimumLoss {
                 loss = Math.min(loss, curr[1] - next[1]);
             }
         }
-        return (int) loss;
+        return loss;
+    }
+
+    public static long minimumLoss2(long[] prices) {
+        long loss = Long.MAX_VALUE;
+        TreeSet<Long> priceSet = new TreeSet<>();
+        for (int i = 0; i < prices.length; i++) {
+            Long higher = priceSet.higher(prices[i]);
+            if (higher != null) {
+                loss = Math.min(loss, higher - prices[i]);
+            }
+            priceSet.add(prices[i]);
+        }
+        return loss;
     }
 
 }
