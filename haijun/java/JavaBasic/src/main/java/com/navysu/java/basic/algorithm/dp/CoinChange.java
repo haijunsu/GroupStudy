@@ -1,7 +1,8 @@
 package com.navysu.java.basic.algorithm.dp;
 
 /**
- * leetcode 322 Coin Change
+ * Leetcode 322 Coin Change
+ * https://leetcode.com/problems/coin-change/description/
  *
  * You are given an integer array coins representing coins of different
  * denominations and an integer amount representing a total amount of money.
@@ -54,7 +55,7 @@ public class CoinChange {
      * 2. amount < 0, return -1
      * 3. amount > 0, 0 < i <=amount, return coins[i-coin] + 1 if coins[i-coin]
      * exists.
-     * 
+     *
      * @param coins  an integer array of coin denominations
      * @param amount an integer amount of money
      * @return the fewest number of coins that you need to make up that amount
