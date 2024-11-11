@@ -45,6 +45,19 @@ public class AllSubSets {
         return result;
     }
 
+    /**
+     * Generate all subsets of given array.
+     *
+     * This function uses backtracking to generate all subsets of given array.
+     * The idea is to start with an empty subset and then add elements one by one
+     * to the current subset. The base case is when the current subset is equal
+     * to the given array.
+     *
+     * @param nums   the given array
+     * @param index  the current index in the array
+     * @param list   the current subset
+     * @param result the result list
+     */
     private static void backtrack(int[] nums, int index, List<Integer> list, List<List<Integer>> result) {
         result.add(new ArrayList<>(list));
         for (int i = index; i < nums.length; i++) {
