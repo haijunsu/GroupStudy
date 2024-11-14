@@ -106,6 +106,10 @@ public class LargestRectangleArea {
         heights3 = new int[] { 2, 1, 2 };
         System.out.println(largestRectangleArea(heights3)); // Output: 3
         System.out.println(largestRectangleArea2(heights3)); // Output: 3
+
+        heights3 = new int[] { 3, 2, 3, 2, 4, 6, 2 };
+        System.out.println(largestRectangleArea(heights3)); // Output: 3
+        System.out.println(largestRectangleArea2(heights3)); // Output: 3
     }
 
 }
