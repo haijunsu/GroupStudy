@@ -84,6 +84,8 @@ public class Wordbreak {
         dp[0] = true;
         for (int i = 1; i <= s.length(); i++) {
             for (int j = 0; j < i; j++) {
+                // check if substring from j to i can be segmented and is a word segment in the
+                // dictionary
                 if (dp[j] && words.contains(s.substring(j, i))) {
                     dp[i] = true;
                     break;
