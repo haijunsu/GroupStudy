@@ -63,6 +63,10 @@ public class LargestRectangleArea {
      * This method efficiently calculates the maximum rectangular area with
      * time complexity of O(n) and space complexity of O(n).
      *
+     * stack 是一个升序栈 （存的是元素下标），每次遇到比栈顶元素比后面的元素大，就可以计算出前面的矩形和本身的值取最大面积，
+     * 直到遇到比栈顶元素比后面的元素要小，然后把后面小的元素压入栈中。到最后，从后面开始计算出所有可能的矩形面积。
+     *
+     *
      * @param heights an array representing the heights of the histogram bars
      * @return the area of the largest rectangle
      */
