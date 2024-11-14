@@ -2,6 +2,8 @@ package com.navysu.java.basic.algorithm.graph;
 
 import java.util.PriorityQueue;
 
+import com.navysu.java.basic.algorithm.ListNode;
+
 /**
  * Leetcode 23 Merge k Sorted Lists
  * https://leetcode.com/problems/merge-k-sorted-lists/
@@ -103,21 +105,4 @@ public class MergeSortedLists {
         return head.next;
     }
 
-}
-
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode() {
-    }
-
-    ListNode(int val) {
-        this.val = val;
-    }
-
-    ListNode(int val, ListNode next) {
-        this.val = val;
-        this.next = next;
-    }
 }
