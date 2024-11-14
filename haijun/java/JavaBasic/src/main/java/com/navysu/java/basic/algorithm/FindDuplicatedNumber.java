@@ -50,6 +50,19 @@ public class FindDuplicatedNumber {
         System.out.println(new FindDuplicatedNumber().findDuplicate(nums)); // Output: 3
     }
 
+    /**
+     * This Java method finds the first duplicate in the given array of integers
+     * nums.
+     * It uses Floyd's Tortoise and Hare (Cycle Detection) algorithm to achieve
+     * this.
+     * The algorithm works by using two pointers, one of which moves twice as fast
+     * as the other.
+     * The two pointers will eventually meet at the start of the cycle, which is the
+     * duplicate number.
+     *
+     * @param nums the given array of integers
+     * @return the first duplicate in the given array of integers nums
+     */
     public int findDuplicate(int[] nums) {
         int slow = nums[0];
         int fast = nums[nums[0]];
