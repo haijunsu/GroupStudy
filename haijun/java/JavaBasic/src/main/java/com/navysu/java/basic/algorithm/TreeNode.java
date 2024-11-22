@@ -13,4 +13,21 @@ public class TreeNode {
         this.val = val;
         children = new ArrayList<>();
     }
+
+    @Override
+    public String toString() {
+        String str = Integer.toString(val);
+        if (left == null) {
+            str += ",,";
+        } else {
+            str += "," + left.toString() + ",";
+        }
+        if (right == null) {
+            str += ",";
+        } else {
+            str += "," + right.toString() + ",";
+        }
+
+        return str;
+    }
 }
