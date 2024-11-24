@@ -1,4 +1,4 @@
-package com.navysu.java.basic.algorithm;
+package com.navysu.java.basic.algorithm.dp;
 
 /**
  * leetcode 416 Partition Equal Subset Sum
