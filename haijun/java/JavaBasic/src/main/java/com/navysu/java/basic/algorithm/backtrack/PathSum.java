@@ -87,6 +87,10 @@ public class PathSum {
     }
 
     /**
+     * hit: current node sum - target sum == starting node sum.
+     * Start node sum is saved in the map. Preset 0 is 1 to handle the node value
+     * equals target.
+     *
      * A helper function to find the number of paths that sum up to the target
      * sum.
      *
@@ -101,6 +105,7 @@ public class PathSum {
      * incremented. The function then recursively calls itself on the left and
      * right children of the current node, and finally decrements the count in
      * the map.
+     *
      *
      * @param root      the root of the binary tree
      * @param targetSum the target sum
