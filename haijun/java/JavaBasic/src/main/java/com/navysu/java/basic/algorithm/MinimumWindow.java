@@ -46,8 +46,16 @@ import java.util.Map;
 public class MinimumWindow {
 
     public static void main(String[] args) {
-        String s = "ADOBECODEBANC";
+        String s = "DADOBECODEBANC";
         String t = "ABC";
+        System.out.println(minWindow(s, t)); // BANC
+
+        s = "DABCDOBECODEBANC";
+        t = "ABC";
+        System.out.println(minWindow(s, t)); // BANC
+
+        s = "DDDDDDDDDDDABEEEEECFFFFFDOBECODEBANC";
+        t = "ABC";
         System.out.println(minWindow(s, t)); // BANC
 
         s = "a";
