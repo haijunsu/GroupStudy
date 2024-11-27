@@ -28,6 +28,21 @@ public class MajorityElement {
         System.out.println(majorityElement(nums));
     }
 
+    /**
+     * Finds the majority element from given array.
+     *
+     * The majority element is the element that appears more than ⌊n / 2⌋ times.
+     *
+     * The algorithm works by essentially maintaining a counter for the majority
+     * element. If the counter is zero, the algorithm simply sets the current
+     * element as the majority element. If the counter is not zero, the algorithm
+     * increments the counter if the current element is the same as the majority
+     * element and decrements the counter if it is not. At the end of the loop,
+     * the majority element is the element that the counter is keeping track of.
+     *
+     * @param nums the given array
+     * @return the majority element from the given array
+     */
     public static int majorityElement(int[] nums) {
         int result = 0, count = 0;
         for (int i = 0; i < nums.length; i++) {
