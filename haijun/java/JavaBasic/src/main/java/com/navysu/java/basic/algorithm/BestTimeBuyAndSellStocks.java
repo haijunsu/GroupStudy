@@ -28,7 +28,7 @@ package com.navysu.java.basic.algorithm;
  * Input: prices = [7,6,4,3,1]
  * Output: 0
  * Explanation: In this case, no transactions are done and the max profit = 0.
- * 
+ *
  */
 
 public class BestTimeBuyAndSellStocks {
@@ -38,6 +38,19 @@ public class BestTimeBuyAndSellStocks {
         System.out.println(maxProfit(prices));
     }
 
+    /**
+     * Calculates the maximum profit that can be achieved from buying and selling
+     * a single stock on different days.
+     *
+     * This function iterates over the given array of stock prices and determines
+     * the best day to buy and the best day to sell in order to maximize profit.
+     * It does so by keeping track of the minimum price seen so far and the maximum
+     * profit achievable.
+     *
+     * @param prices an array of integers where each element represents the price
+     *               of a stock on a given day
+     * @return the maximum profit possible; returns 0 if no profit can be made
+     */
     public static int maxProfit(int[] prices) {
         int min = Integer.MAX_VALUE;
         int max = 0;

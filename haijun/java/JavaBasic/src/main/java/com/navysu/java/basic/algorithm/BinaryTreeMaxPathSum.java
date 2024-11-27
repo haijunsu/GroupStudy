@@ -62,6 +62,26 @@ public class BinaryTreeMaxPathSum {
         return max[0];
     }
 
+    /**
+     * A helper function to find the maximum path sum of a binary tree.
+     *
+     * This function takes a TreeNode root and an int array max as parameters.
+     * The int array max is used to store the maximum path sum of the tree so
+     * far. The function returns the maximum path sum of the subtree rooted at
+     * the given node.
+     *
+     * The function works recursively by considering two scenarios:
+     * 1. The maximum path sum that includes the current node, which is the
+     * maximum of the current node's value plus the maximum path sum of its left
+     * subtree and the maximum path sum of its right subtree.
+     * 2. The maximum path sum that excludes the current node, which is the
+     * maximum of the maximum path sum of its left subtree and the maximum path
+     * sum of its right subtree.
+     *
+     * @param root the root of the subtree
+     * @param max  an int array to store the maximum path sum of the tree so far
+     * @return the maximum path sum of the subtree rooted at the given node
+     */
     public int helper(TreeNode root, int[] max) {
         if (root == null)
             return 0;
