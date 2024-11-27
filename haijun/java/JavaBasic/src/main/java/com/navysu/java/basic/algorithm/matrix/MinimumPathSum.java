@@ -35,6 +35,16 @@ public class MinimumPathSum {
         System.out.println(minimumPathSum.minPathSum(grid));
     }
 
+    /**
+     * Given a m x n grid filled with non-negative numbers, find a path from top
+     * left to bottom right, which minimizes the sum of all numbers along its path.
+     *
+     * Note: You can only move either down or right at any point in time.
+     *
+     * @param grid a 2D grid filled with non-negative numbers
+     * @return the minimum sum of all numbers along the path from top left to bottom
+     *         right
+     */
     public int minPathSum(int[][] grid) {
         int[][] sums = new int[grid.length][grid[0].length];
         for (int i = 0; i < grid.length; i++) {
