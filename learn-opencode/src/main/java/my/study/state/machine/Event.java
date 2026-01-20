@@ -1,0 +1,10 @@
+package my.study.state.machine;
+
+public enum Event {
+  SUBMIT_TO_MANAGER,
+  RETURN_FOR_CORRECTION,
+  MANAGER_APPROVE,
+  MANAGER_APPROVE_WITH_FOLLOWUP,
+  ACKNOWLEDGE,
+  CLOSE_CASE
+}
