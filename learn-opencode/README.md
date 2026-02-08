@@ -34,6 +34,24 @@ mkdir -p ~/.opencode/skills
 git clone https://github.com/anthropics/skills.git ~/.opencode/skills/anthropics-skills
 ```
 
+### 3. Install `opencode-antigravity-auth`
+
+This plugin provides authentication capabilities for Antigravity.
+
+```bash
+# Create plugins directory if it doesn't exist
+mkdir -p ~/.opencode/plugins
+
+# Clone the repository
+git clone https://github.com/NoeFabris/opencode-antigravity-auth.git ~/.opencode/plugins/opencode-antigravity-auth
+
+# Install dependencies and build
+cd ~/.opencode/plugins/opencode-antigravity-auth
+npm install && npm run build
+```
+
+
+
 # State Machine Demo
 
 This is a pure Java implementation of a configurable State Machine pattern.
